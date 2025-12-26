@@ -84,6 +84,10 @@ position = Vector2(540, 960)
 position = Vector2(0, -380)
 gizmo_extents = 20.0
 
+[node name="NextFruitPreview" type="Sprite2D" parent="GameplayArea"]
+position = Vector2(0, -320)
+modulate = Color(1, 1, 1, 0.7)
+
 [node name="FruitContainer" type="Node2D" parent="GameplayArea"]
 
 [node name="GameOverDetector" type="Area2D" parent="GameplayArea"]
@@ -149,26 +153,6 @@ offset_bottom = 250.0
 theme_override_colors/font_color = Color(1, 0.5, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "Combo: x1.0"
-
-[node name="NextFruitPreview" type="PanelContainer" parent="UI"]
-offset_left = 800.0
-offset_top = 50.0
-offset_right = 1030.0
-offset_bottom = 200.0
-
-[node name="VBox" type="VBoxContainer" parent="UI/NextFruitPreview"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/NextFruitPreview/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
-text = "NEXT:"
-horizontal_alignment = 1
-
-[node name="PreviewSprite" type="Sprite2D" parent="UI/NextFruitPreview/VBox"]
-position = Vector2(115, 90)
-scale = Vector2(1, 1)
 
 [node name="ShakeButton" type="Button" parent="UI"]
 offset_left = 880.0

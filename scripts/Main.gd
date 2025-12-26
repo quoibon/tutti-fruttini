@@ -13,7 +13,7 @@ extends Node2D
 @onready var high_score_label = $UI/HighScoreLabel
 @onready var next_fruit_label = $UI/NextFruitLabel
 @onready var combo_label = $UI/ComboLabel
-@onready var next_fruit_preview = $UI/NextFruitPreview/VBox/PreviewSprite
+@onready var next_fruit_preview = $GameplayArea/NextFruitPreview
 @onready var shake_button = $UI/ShakeButton
 @onready var refill_button = $UI/RefillButton
 
