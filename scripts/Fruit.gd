@@ -74,7 +74,7 @@ func setup_physics() -> void:
 	# Set physics material (low bounce for soft fruit feel)
 	var physics_mat = PhysicsMaterial.new()
 	physics_mat.friction = 0.5
-	physics_mat.bounce = 0.05
+	physics_mat.bounce = 0.09
 	physics_material_override = physics_mat
 
 	# Set collision layers and masks
