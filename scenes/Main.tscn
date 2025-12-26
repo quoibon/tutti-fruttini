@@ -1,0 +1,147 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7mn3xr8qw2yk"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="2_spawner"]
+[ext_resource type="Script" path="res://scripts/GameOverDetector.gd" id="3_detector"]
+
+[sub_resource type="RectangleShape2D" id="wall_shape"]
+size = Vector2(20, 960)
+
+[sub_resource type="RectangleShape2D" id="floor_shape"]
+size = Vector2(540, 20)
+
+[sub_resource type="RectangleShape2D" id="detector_shape"]
+size = Vector2(540, 80)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(540, 960)
+zoom = Vector2(1, 1)
+
+[node name="Container" type="Node2D" parent="."]
+position = Vector2(540, 960)
+
+[node name="LeftWall" type="StaticBody2D" parent="Container"]
+position = Vector2(-270, 0)
+collision_layer = 1
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/LeftWall"]
+shape = SubResource("wall_shape")
+
+[node name="ColorRect" type="ColorRect" parent="Container/LeftWall"]
+offset_left = -10.0
+offset_top = -480.0
+offset_right = 10.0
+offset_bottom = 480.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="RightWall" type="StaticBody2D" parent="Container"]
+position = Vector2(270, 0)
+collision_layer = 1
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/RightWall"]
+shape = SubResource("wall_shape")
+
+[node name="ColorRect" type="ColorRect" parent="Container/RightWall"]
+offset_left = -10.0
+offset_top = -480.0
+offset_right = 10.0
+offset_bottom = 480.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Floor" type="StaticBody2D" parent="Container"]
+position = Vector2(0, 480)
+collision_layer = 1
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/Floor"]
+shape = SubResource("floor_shape")
+
+[node name="ColorRect" type="ColorRect" parent="Container/Floor"]
+offset_left = -270.0
+offset_top = -10.0
+offset_right = 270.0
+offset_bottom = 10.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="Background" type="ColorRect" parent="Container"]
+offset_left = -270.0
+offset_top = -480.0
+offset_right = 270.0
+offset_bottom = 480.0
+color = Color(0.95, 0.95, 0.85, 1)
+z_index = -1
+
+[node name="GameplayArea" type="Node2D" parent="."]
+position = Vector2(540, 960)
+
+[node name="SpawnPoint" type="Marker2D" parent="GameplayArea"]
+position = Vector2(0, -380)
+gizmo_extents = 20.0
+
+[node name="FruitContainer" type="Node2D" parent="GameplayArea"]
+
+[node name="GameOverDetector" type="Area2D" parent="GameplayArea"]
+position = Vector2(0, -440)
+collision_layer = 8
+collision_mask = 2
+monitoring = true
+script = ExtResource("3_detector")
+grace_period = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameplayArea/GameOverDetector"]
+shape = SubResource("detector_shape")
+
+[node name="DangerZoneVisual" type="ColorRect" parent="GameplayArea/GameOverDetector"]
+offset_left = -270.0
+offset_top = -40.0
+offset_right = 270.0
+offset_bottom = 40.0
+color = Color(1, 0, 0, 0.1)
+
+[node name="Managers" type="Node" parent="."]
+
+[node name="Spawner" type="Node" parent="Managers"]
+script = ExtResource("2_spawner")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+offset_left = 50.0
+offset_top = 50.0
+offset_right = 300.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+
+[node name="HighScoreLabel" type="Label" parent="UI"]
+offset_left = 50.0
+offset_top = 100.0
+offset_right = 350.0
+offset_bottom = 150.0
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "High Score: 0"
+
+[node name="NextFruitLabel" type="Label" parent="UI"]
+offset_left = 50.0
+offset_top = 160.0
+offset_right = 250.0
+offset_bottom = 200.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Next: Cherry"
+
+[node name="ComboLabel" type="Label" parent="UI"]
+offset_left = 50.0
+offset_top = 210.0
+offset_right = 250.0
+offset_bottom = 250.0
+theme_override_colors/font_color = Color(1, 0.5, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Combo: x1.0"

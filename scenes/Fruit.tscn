@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqv8jy3xr7xki"]
+
+[ext_resource type="Script" path="res://scripts/Fruit.gd" id="1_fruit"]
+
+[node name="Fruit" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 3
+mass = 1.0
+gravity_scale = 1.0
+contact_monitor = true
+max_contacts_reported = 8
+can_sleep = true
+script = ExtResource("1_fruit")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="MergeArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MergeArea"]
+
+[node name="MergeCooldownTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

@@ -1,0 +1,126 @@
+{
+  "version": "1.0",
+  "fruits": [
+    {
+      "level": 0,
+      "name": "cherry",
+      "display_name": "Cherry",
+      "sprite_path": "res://assets/sprites/fruits/cherry.png",
+      "radius": 16,
+      "score_value": 1,
+      "spawn_weight": 35,
+      "color": "#FF0000",
+      "merge_particle_color": "#FF6666"
+    },
+    {
+      "level": 1,
+      "name": "strawberry",
+      "display_name": "Strawberry",
+      "sprite_path": "res://assets/sprites/fruits/strawberry.png",
+      "radius": 20,
+      "score_value": 3,
+      "spawn_weight": 30,
+      "color": "#FF1744",
+      "merge_particle_color": "#FF5177"
+    },
+    {
+      "level": 2,
+      "name": "grape",
+      "display_name": "Grape",
+      "sprite_path": "res://assets/sprites/fruits/grape.png",
+      "radius": 24,
+      "score_value": 6,
+      "spawn_weight": 20,
+      "color": "#9C27B0",
+      "merge_particle_color": "#BA68C8"
+    },
+    {
+      "level": 3,
+      "name": "orange",
+      "display_name": "Orange",
+      "sprite_path": "res://assets/sprites/fruits/orange.png",
+      "radius": 32,
+      "score_value": 10,
+      "spawn_weight": 10,
+      "color": "#FF9800",
+      "merge_particle_color": "#FFB74D"
+    },
+    {
+      "level": 4,
+      "name": "lemon",
+      "display_name": "Lemon",
+      "sprite_path": "res://assets/sprites/fruits/lemon.png",
+      "radius": 40,
+      "score_value": 15,
+      "spawn_weight": 5,
+      "color": "#FFEB3B",
+      "merge_particle_color": "#FFF176"
+    },
+    {
+      "level": 5,
+      "name": "apple",
+      "display_name": "Apple",
+      "sprite_path": "res://assets/sprites/fruits/apple.png",
+      "radius": 48,
+      "score_value": 21,
+      "spawn_weight": 0,
+      "color": "#F44336",
+      "merge_particle_color": "#EF5350"
+    },
+    {
+      "level": 6,
+      "name": "pear",
+      "display_name": "Pear",
+      "sprite_path": "res://assets/sprites/fruits/pear.png",
+      "radius": 56,
+      "score_value": 28,
+      "spawn_weight": 0,
+      "color": "#8BC34A",
+      "merge_particle_color": "#AED581"
+    },
+    {
+      "level": 7,
+      "name": "peach",
+      "display_name": "Peach",
+      "sprite_path": "res://assets/sprites/fruits/peach.png",
+      "radius": 64,
+      "score_value": 36,
+      "spawn_weight": 0,
+      "color": "#FFB6C1",
+      "merge_particle_color": "#FFCCD5"
+    },
+    {
+      "level": 8,
+      "name": "pineapple",
+      "display_name": "Pineapple",
+      "sprite_path": "res://assets/sprites/fruits/pineapple.png",
+      "radius": 72,
+      "score_value": 45,
+      "spawn_weight": 0,
+      "color": "#FFD700",
+      "merge_particle_color": "#FFED4E"
+    },
+    {
+      "level": 9,
+      "name": "melon",
+      "display_name": "Melon",
+      "sprite_path": "res://assets/sprites/fruits/melon.png",
+      "radius": 80,
+      "score_value": 55,
+      "spawn_weight": 0,
+      "color": "#4CAF50",
+      "merge_particle_color": "#81C784"
+    },
+    {
+      "level": 10,
+      "name": "watermelon",
+      "display_name": "Watermelon",
+      "sprite_path": "res://assets/sprites/fruits/watermelon.png",
+      "radius": 96,
+      "score_value": 100,
+      "spawn_weight": 0,
+      "color": "#C8E6C9",
+      "merge_particle_color": "#00C853"
+    }
+  ]
+}
