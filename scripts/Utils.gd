@@ -1,4 +1,5 @@
 extends Node
+class_name Utils
 
 ## Utils - Utility functions for the game
 

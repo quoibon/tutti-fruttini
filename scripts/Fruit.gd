@@ -1,4 +1,5 @@
 extends RigidBody2D
+class_name Fruit
 
 ## Fruit - Individual fruit physics object with merge detection
 
