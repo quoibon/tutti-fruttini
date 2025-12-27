@@ -95,8 +95,9 @@ func drop_fruit(x_position: float) -> void:
 	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(fruit, "scale", Vector2(1.0, 1.0), 0.3)
 
-	# Play fruit-specific sound based on level
-	AudioManager.play_fruit_sound(next_fruit_level)
+	# Play fruit-specific sound only for level 0 (fruit #1 - Blueberry/Cherry)
+	if next_fruit_level == 0:
+		AudioManager.play_fruit_sound(next_fruit_level)
 
 	# Emit signal
 	emit_signal("fruit_spawned", fruit)

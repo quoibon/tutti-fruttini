@@ -7,7 +7,7 @@ var sfx_players: Array[AudioStreamPlayer] = []
 const SFX_POOL_SIZE = 15  # Increased to support multiple simultaneous merges
 
 # Audio settings
-var music_volume: float = 0.8
+var music_volume: float = 0.6
 var sfx_volume: float = 1.0
 var music_enabled: bool = true
 var sfx_enabled: bool = true
@@ -69,6 +69,12 @@ func play_music(track_name: String, loop: bool = true) -> void:
 func stop_music() -> void:
 	music_player.stop()
 
+func pause_music() -> void:
+	music_player.stream_paused = true
+
+func resume_music() -> void:
+	music_player.stream_paused = false
+
 func play_sfx(sfx_name: String) -> void:
 	if not sfx_enabled:
 		return
@@ -125,10 +131,28 @@ func play_refill_sound() -> void:
 
 func play_fruit_sound(fruit_level: int) -> void:
 	# Play fruit-specific sound based on level (0-10)
-	# Files are named 01-11, so add 1 to level
+	# Files are named 01-11 with full fruit names
 	var file_number = fruit_level + 1
-	var sound_name = str(file_number).pad_zeros(2)  # Formats as "01", "02", etc.
-	play_sfx(sound_name)
+
+	# Map fruit levels to full file names
+	var fruit_sound_files = {
+		1: "01.BlueberrinniOctopussini",
+		2: "02.SlimoLiAppluni",
+		3: "03.PerochelloLemonchello",
+		4: "04.PenguinoCocosino",
+		5: "05.ChimpanziniBananini",
+		6: "06.TorrtuginniDragonfrutinni",
+		7: "07.UdinDinDinDinDun",
+		8: "08.Graipussi Medussi",
+		9: "09.CrocodildoPen",
+		10: "10.ZibraZubraZibralini",
+		11: "11.StrawberryElephant"
+	}
+
+	if fruit_sound_files.has(file_number):
+		play_sfx(fruit_sound_files[file_number])
+	else:
+		print("No sound file for fruit level: ", fruit_level)
 
 func play_menu_music() -> void:
 	play_music("Menu-FootprintsPianoOnlyLOOP", true)
@@ -169,7 +193,7 @@ func save_settings() -> void:
 
 func load_settings() -> void:
 	var settings = SaveManager.get_audio_settings()
-	music_volume = settings.get("music_volume", 0.8)
+	music_volume = settings.get("music_volume", 0.6)
 	sfx_volume = settings.get("sfx_volume", 1.0)
 	music_enabled = settings.get("music_enabled", true)
 	sfx_enabled = settings.get("sfx_enabled", true)

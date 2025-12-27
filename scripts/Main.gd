@@ -127,6 +127,11 @@ func update_next_fruit_ui() -> void:
 
 	# Update visual preview with actual sprite
 	var radius = fruit_info.get("radius", 16)
+
+	# Apply size scale for specific fruit levels (fruits 7-11)
+	var size_scale = get_preview_size_scale(next_level)
+	radius = radius * size_scale
+
 	var sprite_loaded = try_load_preview_sprite(next_level)
 
 	if not sprite_loaded:
@@ -255,3 +260,10 @@ func _on_pause_button_pressed() -> void:
 func show_pause_menu() -> void:
 	var pause_menu = pause_scene.instantiate()
 	add_child(pause_menu)
+
+func get_preview_size_scale(fruit_level: int) -> float:
+	# Match the size scaling in Fruit.gd
+	# Fruits 7-11 (levels 6-10) are made 1.4x larger
+	match fruit_level:
+		6, 7, 8, 9, 10: return 1.4
+		_: return 1.0

@@ -11,8 +11,8 @@ var is_on_cooldown: bool = false
 var shake_cooldown_timer: Timer
 
 const MAX_SHAKES: int = 50
-const SHAKE_COOLDOWN_TIME: float = 0.8
-const SHAKE_IMPULSE_STRENGTH: float = 150.0
+const SHAKE_COOLDOWN_TIME: float = 0.3
+const SHAKE_IMPULSE_STRENGTH: float = 450.0
 
 @onready var camera: Camera2D
 
@@ -45,7 +45,7 @@ func perform_shake() -> void:
 		if fruit is Fruit:
 			var random_impulse = Vector2(
 				randf_range(-SHAKE_IMPULSE_STRENGTH, SHAKE_IMPULSE_STRENGTH),
-				randf_range(-SHAKE_IMPULSE_STRENGTH * 0.3, 0)  # Mostly horizontal, slight upward
+				randf_range(-SHAKE_IMPULSE_STRENGTH * 0.45, 0)  # 3x vertical component from original
 			)
 			fruit.apply_central_impulse(random_impulse)
 
@@ -78,7 +78,7 @@ func trigger_camera_shake() -> void:
 		return
 
 	# Simple camera shake effect
-	var shake_amount = 10.0
+	var shake_amount = 30.0
 	var shake_duration = 0.3
 
 	var original_pos = camera.offset

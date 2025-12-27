@@ -49,6 +49,10 @@ func setup_visuals() -> void:
 	var radius = fruit_info.get("radius", 16)
 	var color = Color(fruit_info.get("color", "#FFFFFF"))
 
+	# Apply size scale for specific fruit levels
+	var size_scale = get_size_scale_for_level(level)
+	radius = radius * size_scale
+
 	if sprite:
 		# Try to load actual sprite image first
 		var sprite_loaded = try_load_sprite_image()
@@ -105,22 +109,31 @@ func try_load_sprite_image() -> bool:
 func setup_physics() -> void:
 	var radius = fruit_info.get("radius", 16)
 
+	# Apply size scale for specific fruit levels
+	var size_scale = get_size_scale_for_level(level)
+	radius = radius * size_scale
+
+	# Collision radius adjustments per fruit level to better match sprites
+	# Some fruits have visual elements that extend beyond the solid body
+	var collision_scale = get_collision_scale_for_level(level)
+	var collision_radius = radius * collision_scale
+
 	# Setup main collision shape
 	if collision_shape:
 		var circle_shape = CircleShape2D.new()
-		circle_shape.radius = radius
+		circle_shape.radius = collision_radius
 		collision_shape.shape = circle_shape
 
 	# Setup merge area collision shape (100% of main radius for better detection)
 	if merge_area_shape:
 		var merge_circle = CircleShape2D.new()
-		merge_circle.radius = radius
+		merge_circle.radius = collision_radius
 		merge_area_shape.shape = merge_circle
 
 	# Set physics material (low bounce for soft fruit feel)
 	var physics_mat = PhysicsMaterial.new()
 	physics_mat.friction = 0.5
-	physics_mat.bounce = 0.09
+	physics_mat.bounce = 0.117  # 0.09 * 1.3 = 1.3x bouncier
 	physics_material_override = physics_mat
 
 	# Set collision layers and masks
@@ -228,14 +241,39 @@ func spawn_next_fruit(pos: Vector2, velocity: Vector2) -> void:
 	# Initialize and position
 	new_fruit.global_position = pos
 	new_fruit.initialize(new_level)
-	new_fruit.linear_velocity = velocity * 0.5  # Reduce velocity slightly
+	new_fruit.linear_velocity = velocity * 0.9  # Maintain most of the velocity
 
-	# Pop-in animation for merged fruit
-	new_fruit.scale = Vector2(1.3, 1.3)
+	# Pop-in animation for merged fruit (fast and subtle)
+	new_fruit.scale = Vector2(1.15, 1.15)
 	var tween = get_tree().create_tween()
-	tween.set_trans(Tween.TRANS_ELASTIC)
+	tween.set_trans(Tween.TRANS_BACK)
 	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(new_fruit, "scale", Vector2(1.0, 1.0), 0.4)
+	tween.tween_property(new_fruit, "scale", Vector2(1.0, 1.0), 0.15)
 
 func _on_merge_cooldown_timeout() -> void:
 	can_merge = true
+
+func get_size_scale_for_level(fruit_level: int) -> float:
+	# Returns a size multiplier for specific fruit levels
+	# Fruits 7-11 (levels 6-10) are made 1.4x larger
+	match fruit_level:
+		6, 7, 8, 9, 10: return 1.4  # Fruits 7-11 are 1.4x larger
+		_: return 1.0  # Default - normal size
+
+func get_collision_scale_for_level(fruit_level: int) -> float:
+	# Returns a scale factor for collision radius per fruit level
+	# Adjust these values to better match sprite visuals
+	# Values < 1.0 make collision smaller, > 1.0 make it larger
+	match fruit_level:
+		0: return 0.90  # Blueberry/Cherry - slightly tighter
+		1: return 0.88  # Slime Apple - tighter
+		2: return 0.90  # Lemon - slightly tighter
+		3: return 0.88  # Penguin Coconut - tighter
+		4: return 0.87  # Chimpanzee Banana - tighter
+		5: return 0.86  # Turtle Dragonfruit - tighter
+		6: return 0.85  # Dragonfruit - tighter
+		7: return 0.60  # Level 7 (particularly bad) - very tight for left/right
+		8: return 0.83  # Grape Medusa - tighter
+		9: return 0.85  # Crocodile Pen - tighter
+		10: return 0.87  # Zebra/Watermelon - tighter
+		_: return 1.0  # Default - no change

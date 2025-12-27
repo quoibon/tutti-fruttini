@@ -21,6 +21,9 @@ func _ready() -> void:
 		high_score_label.text = "🎉 NEW HIGH SCORE! 🎉"
 		high_score_label.add_theme_color_override("font_color", Color(1, 0.84, 0))  # Gold
 
+	# Play menu music
+	AudioManager.play_menu_music()
+
 func _on_restart_pressed() -> void:
 	AudioManager.play_click_sound()
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
