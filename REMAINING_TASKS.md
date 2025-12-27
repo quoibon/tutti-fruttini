@@ -1,7 +1,7 @@
 # Remaining Tasks - Tutti Fruttini
 
-**Current Completion: ~70%**
-**Last Updated**: December 2024
+**Current Completion: ~78%**
+**Last Updated**: December 27, 2024
 
 This document summarizes ALL remaining tasks to complete the game for 1.0 release.
 
@@ -110,9 +110,9 @@ This document summarizes ALL remaining tasks to complete the game for 1.0 releas
 
 ---
 
-### 3. App Icon 📱
+### 3. App Icon 📱 ✅ PLACEHOLDER COMPLETE
 
-**Current Status**: Default Godot icon
+**Current Status**: ✅ Placeholder watermelon icon created (icon_placeholder.svg)
 **Required**: Custom Tutti Fruttini icon
 
 **Specifications**:
@@ -122,7 +122,8 @@ This document summarizes ALL remaining tasks to complete the game for 1.0 releas
 - **Adaptive Icon** (optional): Separate foreground/background layers
 
 **Needed**:
-- [ ] Main app icon (1024x1024)
+- [x] Main app icon placeholder (1024x1024 SVG created)
+- [ ] Export to PNG or create final custom icon (optional improvement)
 - [ ] Adaptive icon foreground (432x432) - optional
 - [ ] Adaptive icon background (432x432) - optional
 
@@ -158,15 +159,15 @@ This document summarizes ALL remaining tasks to complete the game for 1.0 releas
 
 ---
 
-### 5. Privacy Policy 📄
+### 5. Privacy Policy 📄 ✅ COMPLETE
 
-**Current Status**: Not created
+**Current Status**: ✅ Created and hosted on web server
 **Required**: Google Play requires privacy policy for apps with ads
 
 **What's Needed**:
-- [ ] Privacy policy document (see template below)
-- [ ] Host online (website, GitHub Pages, etc.)
-- [ ] Add URL to Play Store listing
+- [x] Privacy policy document (PRIVACY_POLICY.md created)
+- [x] Host online (privacy_policy.html uploaded to bonsaidotdot.com)
+- [ ] Add URL to Play Store listing (when creating listing)
 
 **Minimum Template**:
 ```
@@ -206,21 +207,21 @@ Last Updated: [date]
 
 ## ⭐ HIGH PRIORITY - Strongly Recommended
 
-### 6. Tutorial / How to Play Screen
+### 6. Tutorial / How to Play Screen ✅ COMPLETE
 
-**Current Status**: Not implemented
+**Current Status**: ✅ Implemented and integrated
 **Why Important**: New players won't know how to play
 
 **What's Needed**:
-- [ ] First-time tutorial overlay (shows on first launch)
-- [ ] Explains:
+- [x] First-time tutorial overlay (shows on first launch)
+- [x] Explains:
   - Tap to drop fruit
   - Identical fruits merge
   - Don't let fruits reach the top
   - Shake mechanic (limited uses)
   - Goal: Get watermelon
-- [ ] "Don't show again" checkbox
-- [ ] "How to Play" button in main menu
+- [x] Auto-dismisses after first view (saved in SaveManager)
+- [x] "How to Play" button in main menu
 
 **Options**:
 1. **Simple**: Text overlay with instructions
