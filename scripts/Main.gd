@@ -278,6 +278,7 @@ func get_preview_size_scale(fruit_level: int) -> float:
 		2, 3: return 1.2  # Fruits 3-4 are 1.2x larger
 		4, 5: return 1.26  # Fruits 5-6 are 1.26x (1.4 * 0.9)
 		6, 7: return 1.4  # Fruits 7-8 are 1.4x larger
-		8, 9: return 1.071  # Fruits 9-10 reduced by 10% (1.19 * 0.9)
-		10: return 1.19  # Fruit 11 stays at 1.19x
+		8: return 0.857  # Fruit 9 - reduced by 20% from 1.071
+		9: return 0.857  # Fruit 10 - reduced by 20% from 1.071
+		10: return 1.012  # Fruit 11 - reduced by 15% from 1.19
 		_: return 1.0

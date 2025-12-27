@@ -324,6 +324,21 @@ func perform_merge(other_fruit: Fruit) -> void:
 	# Spawn merge particles
 	spawn_merge_particles(spawn_pos)
 
+	print("Merging: ", fruit_info.get("display_name", "Unknown"), " + ",
+		  other_fruit.fruit_info.get("display_name", "Unknown"))
+
+	# Special case: Two fruit 11s (level 10) merging
+	if level == 10:
+		print("MAX LEVEL MERGE! Two Watermelons combined - BONUS POINTS!")
+		# Give bonus points (5x the normal score value)
+		ScoreManager.add_score(score_value * 5)
+		# Play special sound
+		AudioManager.play_fruit_sound(10)
+		# Don't spawn new fruit - just remove both
+		queue_free()
+		other_fruit.queue_free()
+		return
+
 	# Calculate new fruit level
 	var new_level = min(level + 1, 10)
 
@@ -333,16 +348,8 @@ func perform_merge(other_fruit: Fruit) -> void:
 	# Add score
 	ScoreManager.add_score(score_value * 2)
 
-	print("Merging: ", fruit_info.get("display_name", "Unknown"), " + ",
-		  other_fruit.fruit_info.get("display_name", "Unknown"))
-
-	# Spawn next level fruit (if not max level)
-	if level < 10:
-		spawn_next_fruit(spawn_pos, avg_velocity)
-	else:
-		print("MAX LEVEL REACHED: Watermelon!")
-		# Still spawn a watermelon for now
-		spawn_next_fruit(spawn_pos, avg_velocity)
+	# Spawn next level fruit
+	spawn_next_fruit(spawn_pos, avg_velocity)
 
 	# Remove both fruits
 	queue_free()
@@ -393,8 +400,9 @@ func get_size_scale_for_level(fruit_level: int) -> float:
 		2, 3: return 1.2  # Fruits 3-4 are 1.2x larger
 		4, 5: return 1.26  # Fruits 5-6 are 1.26x (1.4 * 0.9)
 		6, 7: return 1.4  # Fruits 7-8 are 1.4x larger
-		8, 9: return 1.071  # Fruits 9-10 reduced by 10% (1.19 * 0.9)
-		10: return 1.19  # Fruit 11 stays at 1.19x
+		8: return 0.857  # Fruit 9 - reduced by 20% from 1.071
+		9: return 0.857  # Fruit 10 - reduced by 20% from 1.071
+		10: return 1.012  # Fruit 11 - reduced by 15% from 1.19
 		_: return 1.0  # Default - normal size
 
 func get_collision_scale_for_level(fruit_level: int) -> float:
