@@ -45,7 +45,7 @@ func perform_shake() -> void:
 		if fruit is Fruit:
 			var random_impulse = Vector2(
 				randf_range(-SHAKE_IMPULSE_STRENGTH, SHAKE_IMPULSE_STRENGTH),
-				randf_range(-SHAKE_IMPULSE_STRENGTH * 0.675, 0)  # 4.5x vertical component from original (0.45 * 1.5)
+				randf_range(-SHAKE_IMPULSE_STRENGTH * 1.0125, 0)  # 6.75x vertical component (0.675 * 1.5)
 			)
 			fruit.apply_central_impulse(random_impulse)
 
