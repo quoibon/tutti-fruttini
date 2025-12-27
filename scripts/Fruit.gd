@@ -332,8 +332,8 @@ func perform_merge(other_fruit: Fruit) -> void:
 		print("MAX LEVEL MERGE! Two Watermelons combined - BONUS POINTS!")
 		# Give bonus points (5x the normal score value)
 		ScoreManager.add_score(score_value * 5)
-		# Play special sound
-		AudioManager.play_fruit_sound(10)
+		# Play special max merge sound (67.mp3)
+		AudioManager.play_max_merge_sound()
 		# Don't spawn new fruit - just remove both
 		queue_free()
 		other_fruit.queue_free()

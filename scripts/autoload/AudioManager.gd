@@ -129,6 +129,10 @@ func play_click_sound() -> void:
 func play_refill_sound() -> void:
 	play_sfx("refill")
 
+func play_max_merge_sound() -> void:
+	# Special sound for when two fruit 11s merge
+	play_sfx("67")
+
 func play_fruit_sound(fruit_level: int) -> void:
 	# Play fruit-specific sound based on level (0-10)
 	# Files are named 01-11 with full fruit names
