@@ -53,8 +53,9 @@ func perform_shake() -> void:
 	if camera:
 		trigger_camera_shake()
 
-	# Haptic feedback
-	Input.vibrate_handheld(100)  # 100ms vibration
+	# Haptic feedback (only if enabled in settings)
+	if SaveManager.get_vibration_enabled():
+		Input.vibrate_handheld(100)  # 100ms vibration
 
 	# Play shake sound
 	AudioManager.play_shake_sound()

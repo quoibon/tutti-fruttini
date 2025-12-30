@@ -42,7 +42,7 @@ size_flags_vertical = 3
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 56
-text = "🍉 TUTTI FRUTTINI 🍉"
+text = "TUTTI FRUTTINI"
 horizontal_alignment = 1
 autowrap_mode = 2
 
