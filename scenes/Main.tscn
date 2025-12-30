@@ -184,5 +184,5 @@ offset_top = 40.0
 offset_right = 1040.0
 offset_bottom = 120.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 32
-text = "⏸"
+theme_override_font_sizes/font_size = 48
+text = "| |"
