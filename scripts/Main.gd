@@ -12,6 +12,7 @@ extends Node2D
 @onready var score_label = $UI/ScoreLabel
 @onready var high_score_label = $UI/HighScoreLabel
 @onready var next_fruit_label = $UI/NextFruitLabel
+@onready var next_fruit_sprite = $UI/NextFruitSprite
 @onready var combo_label = $UI/ComboLabel
 @onready var next_fruit_preview = $GameplayArea/NextFruitPreview
 @onready var shake_button = $UI/ShakeButton
@@ -134,13 +135,10 @@ func update_next_fruit_ui() -> void:
 	var next_level = spawner.get_next_fruit_level()
 	var fruit_info = GameManager.get_fruit_info(next_level)
 
-	# Show just "Next:" label without fruit name - image shows on cursor
-	next_fruit_label.text = "Next:"
-
 	# Update visual preview with actual sprite
 	var radius = fruit_info.get("radius", 16)
 
-	# Apply size scale for specific fruit levels (fruits 7-11)
+	# Apply size scale for specific fruit levels
 	var size_scale = get_preview_size_scale(next_level)
 	radius = radius * size_scale
 
@@ -151,10 +149,15 @@ func update_next_fruit_ui() -> void:
 		var color = Color(fruit_info.get("color", "#FFFFFF"))
 		var texture = Utils.generate_circle_texture(radius, color)
 		next_fruit_preview.texture = texture
+		next_fruit_sprite.texture = texture
 
 	# Scale preview to match target size (sprites are 1024x1024)
 	var target_scale = (radius * 2.0) / 1024.0
 	next_fruit_preview.scale = Vector2(target_scale, target_scale)
+
+	# Scale static UI sprite smaller (50% of cursor preview size)
+	var ui_scale = target_scale * 0.5
+	next_fruit_sprite.scale = Vector2(ui_scale, ui_scale)
 
 func try_load_preview_sprite(level: int) -> bool:
 	# Map same as Fruit.gd
@@ -184,6 +187,7 @@ func try_load_preview_sprite(level: int) -> bool:
 	var texture = load(sprite_path)
 	if texture:
 		next_fruit_preview.texture = texture
+		next_fruit_sprite.texture = texture
 		return true
 
 	return false
