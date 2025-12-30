@@ -13,7 +13,6 @@ extends Node2D
 @onready var high_score_label = $UI/HighScoreLabel
 @onready var next_fruit_label = $UI/NextFruitLabel
 @onready var next_fruit_sprite = $UI/NextFruitSprite
-@onready var combo_label = $UI/ComboLabel
 @onready var next_fruit_preview = $GameplayArea/NextFruitPreview
 @onready var shake_button = $UI/ShakeButton
 @onready var refill_button = $UI/RefillButton
@@ -45,7 +44,6 @@ func _ready() -> void:
 	# Connect signals
 	ScoreManager.score_changed.connect(_on_score_changed)
 	ScoreManager.high_score_changed.connect(_on_high_score_changed)
-	ScoreManager.combo_changed.connect(_on_combo_changed)
 	spawner.next_fruit_changed.connect(_on_next_fruit_changed)
 	game_over_detector.game_over_triggered.connect(_on_game_over)
 	GameManager.game_started.connect(_on_game_started)
@@ -66,7 +64,6 @@ func _ready() -> void:
 	# Initialize UI
 	update_score_ui()
 	update_high_score_ui()
-	update_combo_ui()
 	update_next_fruit_ui()
 	update_shake_counter_ui()
 
@@ -107,9 +104,6 @@ func _on_score_changed(new_score: int) -> void:
 func _on_high_score_changed(new_high_score: int) -> void:
 	update_high_score_ui()
 
-func _on_combo_changed(multiplier: float) -> void:
-	update_combo_ui()
-
 func _on_next_fruit_changed(level: int) -> void:
 	update_next_fruit_ui()
 
@@ -118,18 +112,6 @@ func update_score_ui() -> void:
 
 func update_high_score_ui() -> void:
 	high_score_label.text = "High Score: " + str(ScoreManager.high_score)
-
-func update_combo_ui() -> void:
-	var multiplier = ScoreManager.combo_multiplier
-	combo_label.text = "Combo: x" + ("%.1f" % multiplier)
-
-	# Change color based on combo
-	if multiplier >= 2.0:
-		combo_label.add_theme_color_override("font_color", Color(1, 0, 0))  # Red
-	elif multiplier > 1.0:
-		combo_label.add_theme_color_override("font_color", Color(1, 0.5, 0))  # Orange
-	else:
-		combo_label.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))  # Gray
 
 func update_next_fruit_ui() -> void:
 	var next_level = spawner.get_next_fruit_level()

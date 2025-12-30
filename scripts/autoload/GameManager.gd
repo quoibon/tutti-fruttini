@@ -14,8 +14,8 @@ var fruit_data: Dictionary = {}
 var fruit_scene: PackedScene
 
 # Container dimensions (from spec)
-const CONTAINER_WIDTH: float = 540.0
-const CONTAINER_HEIGHT: float = 960.0
+const CONTAINER_WIDTH: float = 650.0
+const CONTAINER_HEIGHT: float = 1100.0
 const WALL_THICKNESS: float = 20.0
 const SPAWN_HEIGHT: float = 100.0
 const DANGER_ZONE_HEIGHT: float = 80.0
