@@ -43,28 +43,26 @@ func play_music(track_name: String, loop: bool = true) -> void:
 	# Try .ogg first, then .wav (support both formats)
 	var path_ogg = "res://assets/sounds/music/" + track_name + ".ogg"
 	var path_wav = "res://assets/sounds/music/" + track_name + ".wav"
-	var path = ""
 
-	if FileAccess.file_exists(path_ogg):
-		path = path_ogg
-	elif FileAccess.file_exists(path_wav):
-		path = path_wav
-	else:
+	# Use ResourceLoader for exported builds - try both formats
+	var stream = ResourceLoader.load(path_ogg)
+	if not stream:
+		stream = ResourceLoader.load(path_wav)
+
+	if not stream:
 		print("Music file not found: ", track_name)
 		return
 
-	var stream = load(path)
-	if stream:
-		music_player.stream = stream
-		# Set loop for both OggVorbis and WAV
-		if stream is AudioStreamOggVorbis:
-			stream.loop = loop
-		elif stream is AudioStreamWAV:
-			if loop:
-				stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-			else:
-				stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
-		music_player.play()
+	music_player.stream = stream
+	# Set loop for both OggVorbis and WAV
+	if stream is AudioStreamOggVorbis:
+		stream.loop = loop
+	elif stream is AudioStreamWAV:
+		if loop:
+			stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		else:
+			stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	music_player.play()
 
 func stop_music() -> void:
 	music_player.stop()
@@ -82,18 +80,14 @@ func play_sfx(sfx_name: String) -> void:
 	# Try .wav first, then .mp3 (support both formats)
 	var path_wav = "res://assets/sounds/sfx/" + sfx_name + ".wav"
 	var path_mp3 = "res://assets/sounds/sfx/" + sfx_name + ".mp3"
-	var path = ""
 
-	if FileAccess.file_exists(path_wav):
-		path = path_wav
-	elif FileAccess.file_exists(path_mp3):
-		path = path_mp3
-	else:
-		# Silently fail for missing audio files
-		return
-
-	var stream = load(path)
+	# Use ResourceLoader for exported builds - try both formats
+	var stream = ResourceLoader.load(path_wav)
 	if not stream:
+		stream = ResourceLoader.load(path_mp3)
+
+	if not stream:
+		# Silently fail for missing audio files
 		return
 
 	# Find available player

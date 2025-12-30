@@ -181,10 +181,8 @@ func try_load_preview_sprite(level: int) -> bool:
 
 	var sprite_path = "res://assets/sprites/fruits/" + sprite_files[sprite_number] + ".png"
 
-	if not FileAccess.file_exists(sprite_path):
-		return false
-
-	var texture = load(sprite_path)
+	# Use ResourceLoader for exported builds
+	var texture = ResourceLoader.load(sprite_path)
 	if texture:
 		next_fruit_preview.texture = texture
 		next_fruit_sprite.texture = texture

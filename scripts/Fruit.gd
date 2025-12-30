@@ -96,10 +96,8 @@ func try_load_sprite_image() -> bool:
 
 	var sprite_path = "res://assets/sprites/fruits/" + sprite_files[sprite_number] + ".png"
 
-	if not FileAccess.file_exists(sprite_path):
-		return false
-
-	var texture = load(sprite_path)
+	# Use ResourceLoader for exported builds
+	var texture = ResourceLoader.load(sprite_path)
 	if texture:
 		sprite.texture = texture
 		return true
@@ -169,11 +167,8 @@ func try_generate_collision_from_sprite(target_radius: float) -> bool:
 
 	var sprite_path = "res://assets/sprites/fruits/" + sprite_files[sprite_number] + ".png"
 
-	if not FileAccess.file_exists(sprite_path):
-		return false
-
-	# Load the texture
-	var texture = load(sprite_path) as Texture2D
+	# Use ResourceLoader for exported builds
+	var texture = ResourceLoader.load(sprite_path) as Texture2D
 	if not texture:
 		return false
 
