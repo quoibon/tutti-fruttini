@@ -11,7 +11,7 @@ var is_on_cooldown: bool = false
 var shake_cooldown_timer: Timer
 
 const MAX_SHAKES: int = 50
-const SHAKE_COOLDOWN_TIME: float = 0.3
+const SHAKE_COOLDOWN_TIME: float = 0.1
 const SHAKE_IMPULSE_STRENGTH: float = 450.0
 
 @onready var camera: Camera2D
