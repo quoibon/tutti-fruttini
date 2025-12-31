@@ -91,6 +91,10 @@ func _process(_delta: float) -> void:
 		update_preview_position()
 		check_fruits_out_of_bounds()
 
+	# Update refill button text continuously (for countdown timer)
+	if refill_button.visible:
+		update_refill_button_text()
+
 func update_preview_position() -> void:
 	var mouse_pos = get_global_mouse_position()
 
@@ -254,15 +258,20 @@ func update_shake_counter_ui() -> void:
 		shake_button.modulate = Color(1, 1, 1)  # Normal
 
 	# Update refill button text
-	if refill_button.visible:
-		if AdManager.is_free_refill_ready():
-			refill_button.text = "FREE REFILL!"
+	update_refill_button_text()
+
+func update_refill_button_text() -> void:
+	if not refill_button.visible:
+		return
+
+	if AdManager.is_free_refill_ready():
+		refill_button.text = "FREE REFILL!"
+	else:
+		var time_left = int(AdManager.get_free_refill_time_remaining())
+		if time_left > 0:
+			refill_button.text = "Watch Ad\nRefill Shakes\n(Free in " + str(time_left) + "s)"
 		else:
-			var time_left = int(AdManager.get_free_refill_time_remaining())
-			if time_left > 0:
-				refill_button.text = "Watch Ad\nRefill Shakes\n(Free in " + str(time_left) + "s)"
-			else:
-				refill_button.text = "Watch Ad\nRefill Shakes"
+			refill_button.text = "Watch Ad\nRefill Shakes"
 
 # AdManager Callbacks
 
