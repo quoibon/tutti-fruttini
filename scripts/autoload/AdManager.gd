@@ -75,9 +75,12 @@ func _ready() -> void:
 func check_plugin_availability() -> void:
 	# Check if plugin classes exist (Poing Studios Godot 4.x plugin)
 	# The plugin defines these classes when it's loaded
+	print("========================================")
+	print("Platform: ", OS.get_name())
 	print("Checking for RewardedAdLoader class...")
 	is_plugin_available = ClassDB.class_exists("RewardedAdLoader")
 	print("ClassDB.class_exists('RewardedAdLoader') = ", is_plugin_available)
+	print("========================================")
 
 	if is_plugin_available:
 		print("✅ AdMob plugin detected (Poing Studios Godot 4.x)")
@@ -154,13 +157,20 @@ func load_rewarded_ad() -> void:
 	rewarded_ad_loader.load(ad_unit_id, AdRequest.new(), rewarded_ad_load_callback)
 
 func show_rewarded_ad() -> void:
+	print("========================================")
+	print("show_rewarded_ad() called")
+	print("  is_plugin_available: ", is_plugin_available)
+	print("  is_ad_loaded: ", is_ad_loaded)
+	print("  rewarded_ad: ", rewarded_ad)
+	print("========================================")
+
 	if not is_plugin_available:
-		print("AdMob plugin not available - starting free refill timer")
+		print("⚠️ AdMob plugin not available - starting free refill timer")
 		show_free_refill_option()
 		return
 
 	if not is_ad_loaded or rewarded_ad == null:
-		print("Rewarded ad not loaded yet - attempting to load")
+		print("⚠️ Rewarded ad not loaded yet - attempting to load")
 		load_rewarded_ad()
 		show_free_refill_option()  # Offer fallback while loading
 		return
