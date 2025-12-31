@@ -112,13 +112,15 @@ func play_drop_sound() -> void:
 	play_sfx("drop")
 
 func play_shake_sound() -> void:
-	play_sfx("shake")
+	# No shake sound effect needed - silent
+	pass
 
 func play_game_over_sound() -> void:
 	play_sfx("game_over")
 
 func play_click_sound() -> void:
-	play_sfx("click")
+	# No click sound effect needed - silent
+	pass
 
 func play_refill_sound() -> void:
 	play_sfx("refill")
