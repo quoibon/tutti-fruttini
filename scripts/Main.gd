@@ -8,6 +8,7 @@ extends Node2D
 @onready var fruit_container = $GameplayArea/FruitContainer
 @onready var game_over_detector = $GameplayArea/GameOverDetector
 @onready var camera = $Camera2D
+@onready var background_sprite = $BackgroundSprite
 
 @onready var score_label = $UI/ScoreLabel
 @onready var high_score_label = $UI/HighScoreLabel
@@ -15,7 +16,6 @@ extends Node2D
 @onready var next_fruit_sprite = $UI/NextFruitSprite
 @onready var next_fruit_preview = $GameplayArea/NextFruitPreview
 @onready var shake_button = $UI/ShakeButton
-@onready var refill_button = $UI/RefillButton
 
 # Object pools
 var fruit_pool: FruitPool
@@ -33,6 +33,9 @@ func _ready() -> void:
 	particle_pool = ParticlePool.new()
 	add_child(fruit_pool)
 	$GameplayArea.add_child(particle_pool)
+
+	# Scale background to fill screen
+	scale_background_to_screen()
 
 	# Connect tree exiting to save data (failsafe)
 	tree_exiting.connect(_on_tree_exiting)
@@ -52,7 +55,6 @@ func _ready() -> void:
 	GameManager.game_started.connect(_on_game_started)
 	shake_manager.shake_count_changed.connect(_on_shake_count_changed)
 	shake_button.pressed.connect(_on_shake_button_pressed)
-	refill_button.pressed.connect(_on_refill_button_pressed)
 
 	# Connect pause button if it exists
 	var pause_button = get_node_or_null("UI/PauseButton")
@@ -231,51 +233,39 @@ func _on_game_over() -> void:
 
 func _on_shake_count_changed(count: int) -> void:
 	update_shake_counter_ui()
-	# Show refill button if no shakes left
-	if count <= 0:
-		refill_button.visible = true
-		shake_button.disabled = true
-	else:
-		refill_button.visible = false
-		shake_button.disabled = false
 
 func _on_shake_button_pressed() -> void:
 	AudioManager.play_click_sound()
-	shake_manager.perform_shake()
 
-func _on_refill_button_pressed() -> void:
-	AudioManager.play_click_sound()
-	# Show rewarded ad (or grant free refill if no internet)
-	AdManager.show_rewarded_ad()
-	print("Requesting shake refill...")
+	# Check shake count - if 0, show ad; otherwise shake
+	if shake_manager.get_shake_count() <= 0:
+		# Show rewarded ad (or grant free refill if no internet)
+		AdManager.show_rewarded_ad()
+		print("Requesting shake refill...")
+	else:
+		# Perform shake
+		shake_manager.perform_shake()
 
 func update_shake_counter_ui() -> void:
 	var count = shake_manager.get_shake_count()
-	shake_button.text = "SHAKE\n" + str(count)
 
-	# Change button color based on shake count
+	# Change button text based on shake count
 	if count <= 0:
-		shake_button.modulate = Color(1, 0.5, 0.5)  # Light red tint
-	elif count <= 10:
-		shake_button.modulate = Color(1, 0.8, 0.5)  # Light orange tint
+		shake_button.text = "WATCH AD\nRefill Shakes"
+		shake_button.modulate = Color(1, 0.8, 0.3)  # Gold/yellow tint for ad
 	else:
-		shake_button.modulate = Color(1, 1, 1)  # Normal
-
-	# Update refill button text
-	update_refill_button_text()
-
-func update_refill_button_text() -> void:
-	if not refill_button.visible:
-		return
-
-	refill_button.text = "Watch Ad\nRefill Shakes"
+		shake_button.text = "SHAKE\n" + str(count)
+		# Change button color based on shake count
+		if count <= 10:
+			shake_button.modulate = Color(1, 0.8, 0.5)  # Light orange tint
+		else:
+			shake_button.modulate = Color(1, 1, 1)  # Normal
 
 # AdManager Callbacks
 
 func _on_ad_reward_earned() -> void:
 	print("Ad reward earned - refilling shakes")
 	shake_manager.refill_shakes()
-	refill_button.visible = false
 
 func _on_ad_failed() -> void:
 	print("Ad failed to load")
@@ -312,3 +302,24 @@ func _on_tree_exiting() -> void:
 		ScoreManager.save_high_score()
 	SaveManager.save_data()
 	print("Main scene exiting - Data saved as failsafe")
+
+func scale_background_to_screen() -> void:
+	if not background_sprite or not background_sprite.texture:
+		return
+
+	# Get screen size
+	var screen_size = get_viewport_rect().size
+
+	# Get background texture size
+	var texture_size = background_sprite.texture.get_size()
+
+	# Calculate scale needed to cover entire screen
+	# Use max to ensure we cover both width and height
+	var scale_x = screen_size.x / texture_size.x
+	var scale_y = screen_size.y / texture_size.y
+	var scale = max(scale_x, scale_y)
+
+	# Apply scale (add 5% extra to ensure no gaps)
+	background_sprite.scale = Vector2(scale * 1.05, scale * 1.05)
+
+	print("Background scaled to: ", background_sprite.scale)
