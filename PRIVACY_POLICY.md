@@ -4,7 +4,7 @@
 
 **Developer:** Bonsai (bonsaidotdot.com)
 **App Name:** Italian Brainrot Tutti Fruttini Combinasion
-**Package Name:** com.bonsaidotdot.tuttifruitini
+**Package Name:** com.bonsaidotdot.tuttifruttini
 
 ---
 
@@ -57,7 +57,7 @@ This data is collected and processed by Google in accordance with their privacy 
 
 ### Local Storage (On Your Device):
 - **Game saves**: High scores, shake count, and settings are saved to your device using Godot's user data system
-- **Location**: `user://save_data.json` (Android: `/data/data/com.bonsaidotdot.tuttifruitini/files/`)
+- **Location**: `user://save_data.json` (Android: `/data/data/com.bonsaidotdot.tuttifruttini/files/`)
 - **No cloud sync**: Your data is not uploaded to our servers
 
 ### Third-Party Storage:
@@ -193,7 +193,7 @@ For California residents:
 If you have questions about this Privacy Policy:
 
 **Email:** bonsai@bonsaidotdot.com
-**Website:** https://bonsaidotdot.com/apps/tuttifruitini/about.html
+**Website:** https://bonsaidotdot.com/apps/tuttifruttini/about.html
 **Developer:** Bonsai
 
 **Response time:** We aim to respond within 48 hours.

@@ -74,7 +74,7 @@ This guide covers all steps needed to prepare the game for Android and build the
 #### Options → Application
 
 **Package**:
-- **Unique Name**: `com.bonsaidotdot.tuttifruitini`
+- **Unique Name**: `com.bonsaidotdot.tuttifruttini`
 - **Name**: `Tutti Fruttini`
 - **Version Name**: `1.0.0`
 - **Version Code**: `1` (increment for each release)
@@ -133,7 +133,7 @@ This guide covers all steps needed to prepare the game for Android and build the
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bonsaidotdot.tuttifruitini"
+    package="com.bonsaidotdot.tuttifruttini"
     android:versionCode="1"
     android:versionName="1.0.0"
     android:installLocation="auto">
@@ -261,7 +261,7 @@ const USE_TEST_ADS: bool = false  // Production mode
 
 **Generate Keystore** (run in terminal):
 ```bash
-keytool -genkey -v -keystore tutti-fruitini-release.keystore -alias tuttifruitini -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore tutti-fruttini-release.keystore -alias tuttifruttini -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 **Answer Prompts**:
@@ -276,7 +276,7 @@ keytool -genkey -v -keystore tutti-fruitini-release.keystore -alias tuttifruitin
 - ⚠️ Store in secure location (NOT in git repository)
 
 **Location**:
-- Save keystore file outside project (e.g., `~/keystores/tutti-fruitini-release.keystore`)
+- Save keystore file outside project (e.g., `~/keystores/tutti-fruttini-release.keystore`)
 
 ---
 
@@ -285,8 +285,8 @@ keytool -genkey -v -keystore tutti-fruitini-release.keystore -alias tuttifruitin
 **Project → Export → Android → Resources → Keystore**:
 
 **Release Keystore**:
-- **Release**: Path to `tutti-fruitini-release.keystore`
-- **Release User**: `tuttifruitini` (the alias you created)
+- **Release**: Path to `tutti-fruttini-release.keystore`
+- **Release User**: `tuttifruttini` (the alias you created)
 - **Release Password**: [Your keystore password]
 
 **Debug Keystore** (leave default):
@@ -312,7 +312,7 @@ keytool -genkey -v -keystore tutti-fruitini-release.keystore -alias tuttifruitin
 **Android Configuration**:
 - [ ] Android build template installed
 - [ ] Export preset created
-- [ ] Package name set: `com.bonsaidotdot.tuttifruitini`
+- [ ] Package name set: `com.bonsaidotdot.tuttifruttini`
 - [ ] Version code: 1
 - [ ] Version name: 1.0.0
 - [ ] Min SDK: 24
@@ -348,11 +348,11 @@ keytool -genkey -v -keystore tutti-fruitini-release.keystore -alias tuttifruitin
 2. Select "Android" preset
 3. Check "Export With Debug"
 4. Click "Export Project"
-5. Save as: `tutti-fruitini-debug.apk`
+5. Save as: `tutti-fruttini-debug.apk`
 
 **Install on Device**:
 ```bash
-adb install tutti-fruitini-debug.apk
+adb install tutti-fruttini-debug.apk
 ```
 
 **Test on Device**:
@@ -381,11 +381,11 @@ adb install tutti-fruitini-debug.apk
 4. **UNCHECK** "Export With Debug"
 5. Select "Export AAB" (Android App Bundle - recommended)
 6. Click "Export Project"
-7. Save as: `tutti-fruitini-release.aab`
+7. Save as: `tutti-fruttini-release.aab`
 
 **Build Output**:
-- `tutti-fruitini-release.aab` (for Play Store upload)
-- OR `tutti-fruitini-release.apk` (for manual install)
+- `tutti-fruttini-release.aab` (for Play Store upload)
+- OR `tutti-fruttini-release.apk` (for manual install)
 
 **Verify Build**:
 - [ ] File size reasonable (<50MB ideally)
@@ -399,15 +399,15 @@ adb install tutti-fruitini-debug.apk
 **Install AAB** (requires bundletool):
 ```bash
 # Convert AAB to APK for testing
-bundletool build-apks --bundle=tutti-fruitini-release.aab --output=tutti-fruitini.apks
+bundletool build-apks --bundle=tutti-fruttini-release.aab --output=tutti-fruttini.apks
 
 # Install on device
-bundletool install-apks --apks=tutti-fruitini.apks
+bundletool install-apks --apks=tutti-fruttini.apks
 ```
 
 **Or install APK directly**:
 ```bash
-adb install tutti-fruitini-release.apk
+adb install tutti-fruttini-release.apk
 ```
 
 **Critical Tests**:
@@ -461,12 +461,12 @@ adb install tutti-fruitini-release.apk
 ### APK (Android Package)
 - **Size**: Larger (includes all architectures)
 - **Use**: Direct installation, testing
-- **Format**: `tutti-fruitini.apk`
+- **Format**: `tutti-fruttini.apk`
 
 ### AAB (Android App Bundle)
 - **Size**: Smaller (Play Store optimizes per device)
 - **Use**: Play Store upload (recommended)
-- **Format**: `tutti-fruitini.aab`
+- **Format**: `tutti-fruttini.aab`
 - **Note**: Requires Play Store to install (can't sideload)
 
 **Recommendation**: Use AAB for Play Store, APK for testing
@@ -564,7 +564,7 @@ Project → Export → Android → Export AAB (with debug unchecked)
 
 **Install APK**:
 ```bash
-adb install tutti-fruitini.apk
+adb install tutti-fruttini.apk
 ```
 
 **View Logs**:

@@ -1,6 +1,6 @@
 # 🍉 Tutti Fruttini - Technical Reference
 
-**Engine:** Godot 4.5.1 | **Package:** `com.bonsaidotdot.tuttifruitini` | **Version:** 1.0.0 (Pre-Release)
+**Engine:** Godot 4.5.1 | **Package:** `com.bonsaidotdot.tuttifruttini` | **Version:** 1.0.0 (Pre-Release)
 **Status:** 98% Complete - All Core Features Working | **Next:** Production Release
 
 ---
@@ -182,7 +182,7 @@ combo_timeout = 3.0      # resets to 1.0x
 ## File Structure
 
 ```
-/tutti-fruitini
+/tutti-fruttini
 ├── /scenes
 │   ├── Main.tscn, Fruit.tscn, MainMenu.tscn, GameOver.tscn
 │   ├── Settings.tscn, Pause.tscn, Tutorial.tscn
@@ -249,26 +249,26 @@ IOS_REWARDED_AD_ID = "ca-app-pub-3940256099942544/1712485313"
 
 ## Android Build Configuration
 
-**Package:** `com.bonsaidotdot.tuttifruitini`
+**Package:** `com.bonsaidotdot.tuttifruttini`
 **Min SDK:** 24 (Android 7.0) | **Target SDK:** 34 (Android 14)
 **Orientation:** Portrait only (configured in AndroidManifest.xml)
 **Permissions:** INTERNET, ACCESS_NETWORK_STATE, VIBRATE
 
 **AndroidManifest.xml Configuration:**
-- Package: `com.bonsaidotdot.tuttifruitini`
+- Package: `com.bonsaidotdot.tuttifruttini`
 - Orientation: `portrait` (line 50)
 - Permissions: INTERNET, ACCESS_NETWORK_STATE, VIBRATE
 - AdMob App ID: Test ID included (replace for production)
 
 **Signing:**
 ```bash
-keytool -genkey -v -keystore tuttifruitini.keystore \
-  -alias tuttifruitini -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkey -v -keystore tuttifruttini.keystore \
+  -alias tuttifruttini -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 **Build:**
 ```bash
-godot --headless --export-release "Android" bin/tuttifruitini-release.aab
+godot --headless --export-release "Android" bin/tuttifruttini-release.aab
 ```
 
 ---

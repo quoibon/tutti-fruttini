@@ -54,7 +54,7 @@ A physics-based fruit-merging puzzle game built with Godot 4.2+. Drop fruits, me
 ## 📁 Project Structure
 
 ```
-tutti-fruitini/
+tutti-fruttini/
 │
 ├── .claude/                      # Claude Code project instructions
 │   └── CLAUDE.md                 # Technical reference & specifications
@@ -139,7 +139,7 @@ tutti-fruitini/
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd tutti-fruitini
+   cd tutti-fruttini
    ```
 
 2. **Open in Godot:**
@@ -193,7 +193,7 @@ Follow the comprehensive guide: `ANDROID_BUILD_GUIDE.md`
 3. Install AdMob plugin (optional, has fallback)
 4. Build APK/AAB:
    ```bash
-   godot --headless --export-release "Android" bin/tuttifruitini-release.aab
+   godot --headless --export-release "Android" bin/tuttifruttini-release.aab
    ```
 
 **AdMob Setup:**
@@ -386,7 +386,7 @@ For development questions or bug reports, contact: **bonsai@bonsaidotdot.com**
 - **Windows:** `%APPDATA%\Godot\app_userdata\Tutti Fruttini\`
 - **macOS:** `~/Library/Application Support/Godot/app_userdata/Tutti Fruttini/`
 - **Linux:** `~/.local/share/godot/app_userdata/Tutti Fruttini/`
-- **Android:** `/data/data/com.bonsaidotdot.tuttifruitini/files/`
+- **Android:** `/data/data/com.bonsaidotdot.tuttifruttini/files/`
 
 **Structure:**
 ```json
