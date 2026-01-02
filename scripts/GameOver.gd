@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	# Check if new high score
 	if ScoreManager.score == ScoreManager.high_score and ScoreManager.score > 0:
-		high_score_label.text = "🎉 NEW HIGH SCORE! 🎉"
+		high_score_label.text = "NEW HIGH SCORE!"
 		high_score_label.add_theme_color_override("font_color", Color(1, 0.84, 0))  # Gold
 
 	# Play menu music
