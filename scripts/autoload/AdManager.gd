@@ -53,14 +53,18 @@ func _ready() -> void:
 
 	# Initialize AdMob if available (deferred to avoid blocking startup)
 	if is_plugin_available:
-		# Defer initialization slightly to ensure app starts smoothly
-		await get_tree().create_timer(0.5).timeout
-		initialize_admob()
-		# Defer ad loading to avoid blocking if network is slow
-		await get_tree().create_timer(1.0).timeout
-		load_rewarded_ad()
+		# Start initialization in a separate coroutine to avoid blocking _ready()
+		_initialize_admob_deferred()
 	else:
 		print("AdMob plugin not available - using fallback mode only")
+
+func _initialize_admob_deferred() -> void:
+	# Defer initialization slightly to ensure app starts smoothly
+	await get_tree().create_timer(0.5).timeout
+	initialize_admob()
+	# Defer ad loading to avoid blocking if network is slow
+	await get_tree().create_timer(1.0).timeout
+	load_rewarded_ad()
 
 func check_plugin_availability() -> void:
 	# Check if the native plugin singleton is available
