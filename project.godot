@@ -14,6 +14,7 @@ config/name="TuttiFruttini"
 config/description="Physics-based fruit merging puzzle game"
 run/main_scene="res://scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.5", "Mobile")
+boot_splash/image="uid://2yaxyvw6gvdy"
 config/icon="res://icon.png"
 
 [autoload]
