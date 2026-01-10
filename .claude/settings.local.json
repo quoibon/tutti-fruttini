@@ -41,7 +41,10 @@
       "Bash(adb uninstall:*)",
       "Bash(git reset:*)",
       "Bash(timeout 30 adb logcat:*)",
-      "Bash(timeout 45 adb logcat:*)"
+      "Bash(timeout 45 adb logcat:*)",
+      "Bash(java:*)",
+      "Bash(sort:*)",
+      "Bash(xargs cat:*)"
     ]
   }
 }
