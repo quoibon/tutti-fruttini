@@ -53,18 +53,18 @@ func _ready() -> void:
 
 	# Initialize AdMob if available (deferred to avoid blocking startup)
 	if is_plugin_available:
-		# Start initialization in a separate coroutine to avoid blocking _ready()
-		_initialize_admob_deferred()
+		# Use call_deferred to ensure scene tree is fully ready
+		call_deferred("_initialize_admob_deferred")
 	else:
 		print("AdMob plugin not available - using fallback mode only")
 
 func _initialize_admob_deferred() -> void:
-	# Defer initialization slightly to ensure app starts smoothly
-	# Increased delay for AAB builds to avoid startup hangs
-	await get_tree().create_timer(2.0).timeout
+	# Defer initialization significantly to ensure app starts smoothly
+	# Large delays for AAB builds to avoid startup hangs
+	await get_tree().create_timer(5.0).timeout
 	initialize_admob()
 	# Defer ad loading to avoid blocking if network is slow
-	await get_tree().create_timer(2.0).timeout
+	await get_tree().create_timer(3.0).timeout
 	load_rewarded_ad()
 
 func check_plugin_availability() -> void:
