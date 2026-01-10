@@ -6,15 +6,18 @@ const SAVE_PATH = "user://save_data.json"
 var current_data: Dictionary = {}
 
 func _init() -> void:
+	print("🔵 SaveManager _init() START")
 	# Initialize with default data first
 	current_data = get_default_data()
+	print("🔵 SaveManager _init() - default data set")
 	# Then load saved data if it exists - DO THIS IN _init() NOT _ready()!
 	# This ensures data is loaded before other autoloads try to access it
 	load_data()
+	print("🔵 SaveManager _init() COMPLETE")
 
 func _ready() -> void:
 	# Data already loaded in _init()
-	print("SaveManager ready. High score: ", current_data.get("high_score", 0))
+	print("🟢 SaveManager _ready(). High score: ", current_data.get("high_score", 0))
 
 func _notification(what: int) -> void:
 	# Save data when app is paused or closed (critical for Android)

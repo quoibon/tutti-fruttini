@@ -21,8 +21,11 @@ const SPAWN_HEIGHT: float = 100.0
 const DANGER_ZONE_HEIGHT: float = 80.0
 
 func _ready() -> void:
+	print("🟢 GameManager _ready() START")
 	load_fruit_data()
+	print("🟢 GameManager - fruit data loaded")
 	fruit_scene = preload("res://scenes/Fruit.tscn")
+	print("🟢 GameManager _ready() COMPLETE")
 
 func load_fruit_data() -> void:
 	var file = FileAccess.open("res://data/fruit_data.json", FileAccess.READ)

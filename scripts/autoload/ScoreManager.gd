@@ -16,15 +16,18 @@ const COMBO_INCREMENT: float = 0.1
 const MAX_COMBO: float = 3.0
 
 func _ready() -> void:
+	print("🟢 ScoreManager _ready() START")
 	# Create combo timer
 	combo_timer = Timer.new()
 	combo_timer.one_shot = true
 	combo_timer.wait_time = COMBO_TIMEOUT
 	combo_timer.timeout.connect(_on_combo_timeout)
 	add_child(combo_timer)
+	print("🟢 ScoreManager - combo timer created")
 
 	# Load high score
 	load_high_score()
+	print("🟢 ScoreManager _ready() COMPLETE. High score: ", high_score)
 
 func _notification(what: int) -> void:
 	# Save high score when app is paused or closed (critical for Android)

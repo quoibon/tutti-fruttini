@@ -14,24 +14,39 @@ var settings_scene: PackedScene
 var tutorial_scene: PackedScene
 
 func _ready() -> void:
+	print("🟡 MainMenu _ready() START")
+
 	# Load scenes
+	print("🟡 MainMenu - preloading Settings scene...")
 	settings_scene = preload("res://scenes/Settings.tscn")
+	print("🟡 MainMenu - Settings scene loaded")
+
+	print("🟡 MainMenu - preloading Tutorial scene...")
 	tutorial_scene = preload("res://scenes/Tutorial.tscn")
+	print("🟡 MainMenu - Tutorial scene loaded")
 
 	# Set random fruit icons for play button
+	print("🟡 MainMenu - randomizing play button icons...")
 	randomize_play_button_icons()
+	print("🟡 MainMenu - play button icons set")
 
 	# Connect buttons
+	print("🟡 MainMenu - connecting button signals...")
 	play_button.pressed.connect(_on_play_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	how_to_play_button.pressed.connect(_on_how_to_play_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	print("🟡 MainMenu - buttons connected")
 
 	# Load and display high score
+	print("🟡 MainMenu - loading high score...")
 	high_score_label.text = "High Score: " + str(SaveManager.get_high_score())
+	print("🟡 MainMenu - high score displayed")
 
 	# Play menu music
+	print("🟡 MainMenu - starting menu music...")
 	AudioManager.play_menu_music()
+	print("🟡 MainMenu _ready() COMPLETE")
 
 func randomize_play_button_icons() -> void:
 	# Pick two random fruit levels (0-10)
@@ -59,14 +74,19 @@ func load_fruit_icon(sprite: TextureRect, fruit_level: int) -> void:
 
 	var sprite_number = fruit_level + 1
 	if not sprite_files.has(fruit_level):
+		print("🟡 MainMenu - fruit level ", fruit_level, " not found in sprite_files")
 		return
 
 	var sprite_path = "res://assets/sprites/fruits/" + sprite_files[fruit_level] + ".png"
+	print("🟡 MainMenu - loading fruit icon: ", sprite_path)
 
 	# Use ResourceLoader for exported builds
 	var texture = ResourceLoader.load(sprite_path)
 	if texture:
 		sprite.texture = texture
+		print("🟡 MainMenu - fruit icon loaded successfully")
+	else:
+		print("🟡 MainMenu - FAILED to load fruit icon: ", sprite_path)
 
 func _on_play_pressed() -> void:
 	AudioManager.play_click_sound()

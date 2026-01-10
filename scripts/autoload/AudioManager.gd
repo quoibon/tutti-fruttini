@@ -17,10 +17,12 @@ var current_merge_sound: int = 1
 const MAX_MERGE_SOUNDS = 5
 
 func _ready() -> void:
+	print("🟢 AudioManager _ready() START")
 	# Setup music player
 	music_player = AudioStreamPlayer.new()
 	music_player.bus = "Music"
 	add_child(music_player)
+	print("🟢 AudioManager - music player created")
 
 	# Setup SFX pool
 	for i in SFX_POOL_SIZE:
@@ -28,31 +30,39 @@ func _ready() -> void:
 		player.bus = "SFX"
 		add_child(player)
 		sfx_players.append(player)
+	print("🟢 AudioManager - SFX pool created")
 
 	# Load settings
 	load_settings()
+	print("🟢 AudioManager - settings loaded")
 
 	# Apply initial volumes
 	set_music_volume(music_volume)
 	set_sfx_volume(sfx_volume)
+	print("🟢 AudioManager _ready() COMPLETE")
 
 func play_music(track_name: String, loop: bool = true) -> void:
+	print("🎵 AudioManager.play_music() called: ", track_name)
 	if not music_enabled:
+		print("🎵 Music disabled, skipping")
 		return
 
 	# Try .ogg first, then .wav (support both formats)
 	var path_ogg = "res://assets/sounds/music/" + track_name + ".ogg"
 	var path_wav = "res://assets/sounds/music/" + track_name + ".wav"
 
+	print("🎵 Attempting to load: ", path_ogg)
 	# Use ResourceLoader for exported builds - try both formats
 	var stream = ResourceLoader.load(path_ogg)
 	if not stream:
+		print("🎵 .ogg not found, trying .wav: ", path_wav)
 		stream = ResourceLoader.load(path_wav)
 
 	if not stream:
-		print("Music file not found: ", track_name)
+		print("🎵 Music file not found: ", track_name)
 		return
 
+	print("🎵 Music stream loaded successfully")
 	music_player.stream = stream
 	# Set loop for both OggVorbis and WAV
 	if stream is AudioStreamOggVorbis:
@@ -62,7 +72,9 @@ func play_music(track_name: String, loop: bool = true) -> void:
 			stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		else:
 			stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	print("🎵 Starting music playback...")
 	music_player.play()
+	print("🎵 Music playback started")
 
 func stop_music() -> void:
 	music_player.stop()
