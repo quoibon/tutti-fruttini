@@ -39,7 +39,8 @@
       "Bash(adb kill-server:*)",
       "Bash(adb start-server:*)",
       "Bash(adb uninstall:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(timeout 30 adb logcat:*)"
     ]
   }
 }
