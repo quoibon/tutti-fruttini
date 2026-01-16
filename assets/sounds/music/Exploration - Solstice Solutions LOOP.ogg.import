@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dwn71pltrir8m"
+path="res://.godot/imported/Exploration - Solstice Solutions LOOP.ogg-66fd812d0ca8cf26231de7573f555ce2.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/sounds/music/Exploration - Solstice Solutions LOOP.ogg"
+dest_files=["res://.godot/imported/Exploration - Solstice Solutions LOOP.ogg-66fd812d0ca8cf26231de7573f555ce2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

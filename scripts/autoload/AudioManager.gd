@@ -10,6 +10,16 @@ const SFX_POOL_SIZE = 15  # Increased to support multiple simultaneous merges
 var music_volume: float = 0.4
 var sfx_volume: float = 1.0
 
+# Playlist system for game music
+var game_playlist: Array[String] = [
+	"Action - Bruisin' Drums Only LOOP",
+	"Action - Bruisin' No Horns LOOP",
+	"Exploration - Solstice Solutions LOOP",
+	"Game-CaseToCaseAltPianoOnly"
+]
+var current_playlist_index: int = 0
+var playlist_mode: bool = false  # true when playing game playlist
+
 # Available merge sounds (will cycle through)
 var current_merge_sound: int = 1
 const MAX_MERGE_SOUNDS = 5
@@ -20,6 +30,7 @@ func _ready() -> void:
 	music_player = AudioStreamPlayer.new()
 	music_player.bus = "Music"
 	add_child(music_player)
+	music_player.finished.connect(_on_music_finished)
 	print("🟢 AudioManager - music player created")
 
 	# Setup SFX pool
@@ -41,9 +52,8 @@ func _ready() -> void:
 
 func play_music(track_name: String, loop: bool = true) -> void:
 	print("🎵 AudioManager.play_music() called: ", track_name)
-	if music_volume <= 0:
-		print("🎵 Music volume at 0, skipping")
-		return
+	# Always load and play music - volume is controlled by AudioBus
+	# This ensures music resumes when volume is increased from 0
 
 	# Try .ogg first, then .wav (support both formats)
 	var path_ogg = "res://assets/sounds/music/" + track_name + ".ogg"
@@ -200,15 +210,47 @@ func play_fruit_sound(fruit_level: int) -> void:
 		print("No sound file for fruit level: ", fruit_level)
 
 func play_menu_music() -> void:
+	playlist_mode = false  # Single track loop for menu
 	play_music("Menu-FootprintsPianoOnlyLOOP", true)
 
 func play_game_music() -> void:
-	play_music("Game-CaseToCaseAltPianoOnly", true)
+	# Start playlist mode with sequential tracks
+	playlist_mode = true
+	current_playlist_index = 0
+	_play_current_playlist_track()
+
+func _play_current_playlist_track() -> void:
+	if current_playlist_index < game_playlist.size():
+		var track_name = game_playlist[current_playlist_index]
+		print("🎵 Playing playlist track ", current_playlist_index + 1, "/", game_playlist.size(), ": ", track_name)
+		play_music(track_name, false)  # Don't loop individual tracks
+
+func _on_music_finished() -> void:
+	if playlist_mode:
+		# Advance to next track
+		current_playlist_index = (current_playlist_index + 1) % game_playlist.size()
+		_play_current_playlist_track()
+
+func next_track() -> void:
+	if playlist_mode:
+		current_playlist_index = (current_playlist_index + 1) % game_playlist.size()
+		_play_current_playlist_track()
+
+func previous_track() -> void:
+	if playlist_mode:
+		current_playlist_index = (current_playlist_index - 1 + game_playlist.size()) % game_playlist.size()
+		_play_current_playlist_track()
 
 func set_music_volume(volume: float) -> void:
+	var was_muted = music_volume <= 0
 	music_volume = clamp(volume, 0.0, 1.0)
 	var db = linear_to_db(music_volume) if music_volume > 0 else -80
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), db)
+
+	# If volume increased from 0 and music has a stream but isn't playing, resume it
+	if was_muted and music_volume > 0 and music_player.stream and not music_player.playing:
+		music_player.play()
+
 	save_settings()
 
 func set_sfx_volume(volume: float) -> void:
