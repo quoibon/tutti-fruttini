@@ -42,7 +42,9 @@ func load(
 		_plugin.connect("on_rewarded_ad_loaded", _on_rewarded_ad_loaded, CONNECT_DEFERRED)
 		_plugin.connect("on_rewarded_ad_failed_to_load", _on_rewarded_ad_failed_to_load, CONNECT_DEFERRED)
 		reference()
-		_plugin.load(ad_unit_id, ad_request.convert_to_dictionary(), ad_request.keywords, _uid)
+		# Convert Array[String] to PackedStringArray for JNI compatibility (Godot 4.6)
+		var keywords_packed := PackedStringArray(ad_request.keywords)
+		_plugin.load(ad_unit_id, ad_request.convert_to_dictionary(), keywords_packed, _uid)
 
 func _on_rewarded_ad_loaded(uid : int) -> void:
 	if uid == _uid:

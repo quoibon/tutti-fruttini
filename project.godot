@@ -8,19 +8,22 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="TuttiFruttini"
 config/description="Physics-based fruit merging puzzle game"
 run/main_scene="res://scenes/MainMenu.tscn"
-config/features=PackedStringArray("4.5", "Mobile")
+config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://2yaxyvw6gvdy"
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/use_filter=false
-boot_splash/show_image=true
-boot_splash/minimum_display_time=500
+boot_splash/image="uid://2yaxyvw6gvdy"
 config/icon="res://icon.png"
+boot_splash/minimum_display_time=500
 
 [autoload]
 

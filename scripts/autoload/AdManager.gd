@@ -10,7 +10,7 @@ signal reward_earned
 
 # Toggle between test and production ads
 # Set to false for production release!
-const USE_TEST_ADS: bool = false
+const USE_TEST_ADS: bool = false  # PRODUCTION MODE - Real ads
 
 # Production IDs
 const PROD_ANDROID_REWARDED_AD_ID = "ca-app-pub-2547513308278750/3568656364"
@@ -23,6 +23,7 @@ const TEST_IOS_REWARDED_AD_ID = "ca-app-pub-3940256099942544/1712485313"
 # Poing Studios AdMob plugin objects
 var rewarded_ad: RewardedAd = null
 var on_user_earned_reward_listener := OnUserEarnedRewardListener.new()
+var rewarded_ad_load_callback := RewardedAdLoadCallback.new()
 
 var is_ad_loaded: bool = false
 var is_plugin_available: bool = false
@@ -41,8 +42,10 @@ func _ready() -> void:
 	# Check if AdMob plugin is available
 	check_plugin_availability()
 
-	# Setup reward listener
+	# Setup callbacks (direct function references, not Callable)
 	on_user_earned_reward_listener.on_user_earned_reward = _on_user_earned_reward
+	rewarded_ad_load_callback.on_ad_failed_to_load = _on_rewarded_ad_failed_to_load
+	rewarded_ad_load_callback.on_ad_loaded = _on_rewarded_ad_loaded
 
 	# Setup retry timer
 	retry_timer = Timer.new()
@@ -53,18 +56,21 @@ func _ready() -> void:
 
 	# Initialize AdMob if available (deferred to avoid blocking startup)
 	if is_plugin_available:
-		# Use call_deferred to ensure scene tree is fully ready
-		call_deferred("_initialize_admob_deferred")
+		# Start async initialization
+		_initialize_admob_deferred()
 	else:
 		print("AdMob plugin not available - using fallback mode only")
 
 func _initialize_admob_deferred() -> void:
+	print("🕐 Starting deferred AdMob initialization...")
 	# Defer initialization significantly to ensure app starts smoothly
 	# Large delays for AAB builds to avoid startup hangs
 	await get_tree().create_timer(5.0).timeout
+	print("🕐 5 second delay complete, initializing AdMob SDK...")
 	initialize_admob()
 	# Defer ad loading to avoid blocking if network is slow
 	await get_tree().create_timer(3.0).timeout
+	print("🕐 3 second delay complete, loading rewarded ad...")
 	load_rewarded_ad()
 
 func check_plugin_availability() -> void:
@@ -125,29 +131,11 @@ func load_rewarded_ad() -> void:
 	else:
 		ad_unit_id = TEST_IOS_REWARDED_AD_ID if USE_TEST_ADS else PROD_IOS_REWARDED_AD_ID
 
-	# Load rewarded ad using Poing Studios API
+	# Load rewarded ad using Poing Studios API (official pattern)
 	print("📥 Loading rewarded ad (", "TEST" if USE_TEST_ADS else "PRODUCTION", ")...")
 	print("Ad Unit ID: ", ad_unit_id)
 
-	var rewarded_ad_load_callback := RewardedAdLoadCallback.new()
-
-	rewarded_ad_load_callback.on_ad_failed_to_load = func(ad_error: LoadAdError) -> void:
-		is_ad_loaded = false
-		is_loading = false
-		print("❌ Rewarded ad failed to load: ", ad_error.message)
-		print("Error code: ", ad_error.code)
-		emit_signal("ad_failed_to_load")
-		# Retry after delay
-		print("🔄 Retrying ad load in ", AD_RETRY_DELAY, " seconds...")
-		retry_timer.start()
-
-	rewarded_ad_load_callback.on_ad_loaded = func(loaded_ad: RewardedAd) -> void:
-		is_ad_loaded = true
-		is_loading = false
-		rewarded_ad = loaded_ad
-		print("✅ Rewarded ad loaded successfully (UID: ", rewarded_ad._uid, ")")
-		emit_signal("ad_loaded")
-
+	# Official Poing Studios pattern: create loader inline, callbacks already set in _ready()
 	RewardedAdLoader.new().load(ad_unit_id, AdRequest.new(), rewarded_ad_load_callback)
 
 func show_rewarded_ad() -> void:
@@ -202,6 +190,26 @@ func grant_free_refill() -> void:
 	emit_signal("reward_earned")
 
 # AdMob Callbacks
+
+func _on_rewarded_ad_loaded(loaded_ad: RewardedAd) -> void:
+	print("✅ Rewarded ad loaded successfully!")
+	is_ad_loaded = true
+	is_loading = false
+	rewarded_ad = loaded_ad
+	if rewarded_ad:
+		print("   Ad UID: ", rewarded_ad._uid if "_uid" in rewarded_ad else "N/A")
+	emit_signal("ad_loaded")
+
+func _on_rewarded_ad_failed_to_load(ad_error: LoadAdError) -> void:
+	print("❌ Rewarded ad failed to load")
+	print("   Error message: ", ad_error.message if ad_error else "Unknown error")
+	print("   Error code: ", ad_error.code if ad_error else "N/A")
+	is_ad_loaded = false
+	is_loading = false
+	emit_signal("ad_failed_to_load")
+	# Retry after delay
+	print("🔄 Retrying ad load in ", AD_RETRY_DELAY, " seconds...")
+	retry_timer.start()
 
 func _on_user_earned_reward(rewarded_item: RewardedItem) -> void:
 	print("🎁 User earned reward: ", rewarded_item.amount, " ", rewarded_item.type)
