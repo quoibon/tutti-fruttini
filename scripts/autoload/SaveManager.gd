@@ -100,8 +100,6 @@ func get_default_data() -> Dictionary:
 		"settings": {
 			"music_volume": 0.4,
 			"sfx_volume": 1.0,
-			"music_enabled": true,
-			"sfx_enabled": true,
 			"vibration_enabled": true,
 			"announce_all_drops": false
 		},
@@ -126,14 +124,12 @@ func save_shake_count(count: int) -> void:
 func get_shake_count() -> int:
 	return current_data.get("shake_count", 50)
 
-func save_audio_settings(music_vol: float, sfx_vol: float, music_on: bool, sfx_on: bool) -> void:
+func save_audio_settings(music_vol: float, sfx_vol: float) -> void:
 	if not current_data.has("settings"):
 		current_data["settings"] = {}
 
 	current_data["settings"]["music_volume"] = music_vol
 	current_data["settings"]["sfx_volume"] = sfx_vol
-	current_data["settings"]["music_enabled"] = music_on
-	current_data["settings"]["sfx_enabled"] = sfx_on
 	save_data()
 
 func get_audio_settings() -> Dictionary:

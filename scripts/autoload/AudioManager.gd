@@ -9,8 +9,6 @@ const SFX_POOL_SIZE = 15  # Increased to support multiple simultaneous merges
 # Audio settings
 var music_volume: float = 0.4
 var sfx_volume: float = 1.0
-var music_enabled: bool = true
-var sfx_enabled: bool = true
 
 # Available merge sounds (will cycle through)
 var current_merge_sound: int = 1
@@ -43,8 +41,8 @@ func _ready() -> void:
 
 func play_music(track_name: String, loop: bool = true) -> void:
 	print("🎵 AudioManager.play_music() called: ", track_name)
-	if not music_enabled:
-		print("🎵 Music disabled, skipping")
+	if music_volume <= 0:
+		print("🎵 Music volume at 0, skipping")
 		return
 
 	# Try .ogg first, then .wav (support both formats)
@@ -86,7 +84,7 @@ func resume_music() -> void:
 	music_player.stream_paused = false
 
 func play_sfx(sfx_name: String) -> void:
-	if not sfx_enabled:
+	if sfx_volume <= 0:
 		return
 
 	# Try .wav first, then .mp3 (support both formats)
@@ -219,31 +217,10 @@ func set_sfx_volume(volume: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), db)
 	save_settings()
 
-func toggle_music() -> void:
-	music_enabled = not music_enabled
-	if music_enabled:
-		set_music_volume(music_volume)
-		# If music player has a stream loaded but isn't playing, start it
-		if music_player.stream and not music_player.playing:
-			music_player.play()
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), -80)
-	save_settings()
-
-func toggle_sfx() -> void:
-	sfx_enabled = not sfx_enabled
-	if sfx_enabled:
-		set_sfx_volume(sfx_volume)
-	else:
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"), -80)
-	save_settings()
-
 func save_settings() -> void:
-	SaveManager.save_audio_settings(music_volume, sfx_volume, music_enabled, sfx_enabled)
+	SaveManager.save_audio_settings(music_volume, sfx_volume)
 
 func load_settings() -> void:
 	var settings = SaveManager.get_audio_settings()
 	music_volume = settings.get("music_volume", 0.4)
 	sfx_volume = settings.get("sfx_volume", 1.0)
-	music_enabled = settings.get("music_enabled", true)
-	sfx_enabled = settings.get("sfx_enabled", true)

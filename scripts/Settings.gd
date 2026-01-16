@@ -4,8 +4,6 @@ extends CanvasLayer
 
 @onready var music_volume_slider = $Panel/ScrollContainer/VBoxContainer/MusicVolumeContainer/MusicVolumeSlider
 @onready var sfx_volume_slider = $Panel/ScrollContainer/VBoxContainer/SFXVolumeContainer/SFXVolumeSlider
-@onready var music_toggle = $Panel/ScrollContainer/VBoxContainer/MusicToggleContainer/MusicToggle
-@onready var sfx_toggle = $Panel/ScrollContainer/VBoxContainer/SFXToggleContainer/SFXToggle
 @onready var vibration_toggle = $Panel/ScrollContainer/VBoxContainer/VibrationToggleContainer/VibrationToggle
 @onready var announce_drops_toggle = $Panel/ScrollContainer/VBoxContainer/AnnounceDropsContainer/AnnounceDropsToggle
 @onready var developer_logo_button = $Panel/ScrollContainer/VBoxContainer/DeveloperContainer/DeveloperLogoButton
@@ -33,8 +31,6 @@ func _ready() -> void:
 	# Connect signals
 	music_volume_slider.value_changed.connect(_on_music_volume_changed)
 	sfx_volume_slider.value_changed.connect(_on_sfx_volume_changed)
-	music_toggle.toggled.connect(_on_music_toggled)
-	sfx_toggle.toggled.connect(_on_sfx_toggled)
 	vibration_toggle.toggled.connect(_on_vibration_toggled)
 	announce_drops_toggle.toggled.connect(_on_announce_drops_toggled)
 	back_button.pressed.connect(_on_back_pressed)
@@ -53,15 +49,7 @@ func load_settings() -> void:
 	music_volume_slider.value = settings.get("music_volume", 0.4) * 100
 	sfx_volume_slider.value = settings.get("sfx_volume", 1.0) * 100
 
-	# Set toggle states and update text
-	var music_enabled = settings.get("music_enabled", true)
-	music_toggle.button_pressed = music_enabled
-	music_toggle.text = "ON" if music_enabled else "OFF"
-
-	var sfx_enabled = settings.get("sfx_enabled", true)
-	sfx_toggle.button_pressed = sfx_enabled
-	sfx_toggle.text = "ON" if sfx_enabled else "OFF"
-
+	# Set toggle states
 	var vibration_enabled = SaveManager.get_vibration_enabled()
 	vibration_toggle.button_pressed = vibration_enabled
 	vibration_toggle.text = "ON" if vibration_enabled else "OFF"
@@ -81,16 +69,6 @@ func _on_sfx_volume_changed(value: float) -> void:
 	var volume = value / 100.0
 	AudioManager.set_sfx_volume(volume)
 	AudioManager.play_click_sound()
-
-func _on_music_toggled(enabled: bool) -> void:
-	AudioManager.toggle_music()
-	music_toggle.text = "ON" if enabled else "OFF"
-	AudioManager.play_click_sound()
-
-func _on_sfx_toggled(enabled: bool) -> void:
-	AudioManager.toggle_sfx()
-	sfx_toggle.text = "ON" if enabled else "OFF"
-	# Don't play click sound here as SFX might be disabled
 
 func _on_vibration_toggled(enabled: bool) -> void:
 	SaveManager.save_vibration_setting(enabled)

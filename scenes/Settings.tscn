@@ -103,42 +103,6 @@ value = 100.0
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="MusicToggleContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="MusicToggleLabel" type="Label" parent="Panel/ScrollContainer/VBoxContainer/MusicToggleContainer"]
-custom_minimum_size = Vector2(350, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 32
-text = "Music"
-vertical_alignment = 1
-
-[node name="MusicToggle" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/MusicToggleContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-button_pressed = true
-text = "ON"
-
-[node name="SFXToggleContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 20
-
-[node name="SFXToggleLabel" type="Label" parent="Panel/ScrollContainer/VBoxContainer/SFXToggleContainer"]
-custom_minimum_size = Vector2(350, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 32
-text = "Sound Effects"
-vertical_alignment = 1
-
-[node name="SFXToggle" type="CheckButton" parent="Panel/ScrollContainer/VBoxContainer/SFXToggleContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-button_pressed = true
-text = "ON"
-
 [node name="VibrationToggleContainer" type="HBoxContainer" parent="Panel/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
