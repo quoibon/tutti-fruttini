@@ -395,9 +395,9 @@ func get_size_scale_for_level(fruit_level: int) -> float:
 		1: return 1.43  # Fruit 2 (Apple) - 1.3 * 1.1 = 10% larger
 		2, 3: return 1.32  # Fruits 3-4 (Lemon, Coconut) - 1.2 * 1.1 = 10% larger
 		4: return 1.247  # Fruit 5 (Banana) - 1.134 * 1.1 = 10% larger
-		5: return 1.021  # Fruit 6 - 90% of 1.134
-		6: return 1.078  # Fruit 7 - 110% of 0.98
-		7: return 0.84  # Fruit 8 - 60% of 1.4
+		5: return 0.95  # Fruit 6 - 5% smaller for better progression
+		6: return 1.05  # Fruit 7 - 5% larger
+		7: return 1.10  # Fruit 8 - 10% larger
 		8: return 0.857  # Fruit 9 - reduced by 20% from 1.071
 		9: return 0.857  # Fruit 10 - reduced by 20% from 1.071
 		10: return 0.911  # Fruit 11 - 90% of 1.012

@@ -16,6 +16,11 @@ extends Node2D
 @onready var next_fruit_sprite = $UI/NextFruitSprite
 @onready var next_fruit_preview = $GameplayArea/NextFruitPreview
 @onready var shake_button = $UI/ShakeButton
+@onready var pause_button = $UI/PauseButton
+
+# Button style colors
+const SHAKE_COLOR := Color(0.95, 0.4, 0.6)  # Pink/magenta
+const PAUSE_COLOR := Color(0.3, 0.7, 0.9)   # Blue/teal
 
 # Object pools
 var fruit_pool: FruitPool
@@ -55,11 +60,13 @@ func _ready() -> void:
 	GameManager.game_started.connect(_on_game_started)
 	shake_manager.shake_count_changed.connect(_on_shake_count_changed)
 	shake_button.pressed.connect(_on_shake_button_pressed)
+	pause_button.pressed.connect(_on_pause_button_pressed)
 
-	# Connect pause button if it exists
-	var pause_button = get_node_or_null("UI/PauseButton")
-	if pause_button:
-		pause_button.pressed.connect(_on_pause_button_pressed)
+	# Style game buttons with visual effects
+	_setup_button_style(shake_button, SHAKE_COLOR)
+	_setup_button_style(pause_button, PAUSE_COLOR)
+	_setup_button_animations(shake_button)
+	_setup_button_animations(pause_button)
 
 	# Connect AdManager signals
 	AdManager.reward_earned.connect(_on_ad_reward_earned)
@@ -290,13 +297,92 @@ func get_preview_size_scale(fruit_level: int) -> float:
 		1: return 1.43  # Fruit 2 (Apple) - 1.3 * 1.1 = 10% larger
 		2, 3: return 1.32  # Fruits 3-4 (Lemon, Coconut) - 1.2 * 1.1 = 10% larger
 		4: return 1.247  # Fruit 5 (Banana) - 1.134 * 1.1 = 10% larger
-		5: return 1.021  # Fruit 6 - 90% of 1.134
-		6: return 1.078  # Fruit 7 - 110% of 0.98
-		7: return 0.84  # Fruit 8 - 60% of 1.4
+		5: return 0.95  # Fruit 6 - 5% smaller for better progression
+		6: return 1.05  # Fruit 7 - 5% larger
+		7: return 1.10  # Fruit 8 - 10% larger
 		8: return 0.857  # Fruit 9 - reduced by 20% from 1.071
 		9: return 0.857  # Fruit 10 - reduced by 20% from 1.071
 		10: return 0.911  # Fruit 11 - 90% of 1.012
 		_: return 1.0
+
+func _setup_button_style(button: Button, base_color: Color) -> void:
+	# Create normal style with gradient-like appearance
+	var normal_style := StyleBoxFlat.new()
+	normal_style.bg_color = base_color
+	normal_style.corner_radius_top_left = 15
+	normal_style.corner_radius_top_right = 15
+	normal_style.corner_radius_bottom_left = 15
+	normal_style.corner_radius_bottom_right = 15
+	normal_style.shadow_color = Color(0, 0, 0, 0.5)
+	normal_style.shadow_size = 5
+	normal_style.shadow_offset = Vector2(3, 4)
+	normal_style.border_width_bottom = 4
+	normal_style.border_color = base_color.darkened(0.3)
+
+	# Create hover style (brighter with glow effect)
+	var hover_style := StyleBoxFlat.new()
+	hover_style.bg_color = base_color.lightened(0.15)
+	hover_style.corner_radius_top_left = 15
+	hover_style.corner_radius_top_right = 15
+	hover_style.corner_radius_bottom_left = 15
+	hover_style.corner_radius_bottom_right = 15
+	hover_style.shadow_color = base_color.lightened(0.3)
+	hover_style.shadow_color.a = 0.6
+	hover_style.shadow_size = 8
+	hover_style.shadow_offset = Vector2(0, 0)
+	hover_style.border_width_bottom = 4
+	hover_style.border_color = base_color.darkened(0.2)
+
+	# Create pressed style
+	var pressed_style := StyleBoxFlat.new()
+	pressed_style.bg_color = base_color.darkened(0.15)
+	pressed_style.corner_radius_top_left = 15
+	pressed_style.corner_radius_top_right = 15
+	pressed_style.corner_radius_bottom_left = 15
+	pressed_style.corner_radius_bottom_right = 15
+	pressed_style.shadow_color = Color(0, 0, 0, 0.3)
+	pressed_style.shadow_size = 2
+	pressed_style.shadow_offset = Vector2(1, 1)
+	pressed_style.border_width_top = 4
+	pressed_style.border_color = base_color.darkened(0.4)
+
+	# Apply styles
+	button.add_theme_stylebox_override("normal", normal_style)
+	button.add_theme_stylebox_override("hover", hover_style)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_stylebox_override("focus", normal_style)
+
+func _setup_button_animations(button: Button) -> void:
+	# Set pivot for scaling from center
+	button.pivot_offset = button.size / 2.0
+
+	# Connect hover signals for scale animation
+	button.mouse_entered.connect(func(): _on_game_button_hover(button, true))
+	button.mouse_exited.connect(func(): _on_game_button_hover(button, false))
+
+	# Connect press signals
+	button.button_down.connect(func(): _on_game_button_press(button, true))
+	button.button_up.connect(func(): _on_game_button_press(button, false))
+
+func _on_game_button_hover(button: Button, is_hovering: bool) -> void:
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_BACK)
+
+	if is_hovering:
+		tween.tween_property(button, "scale", Vector2(1.08, 1.08), 0.15)
+	else:
+		tween.tween_property(button, "scale", Vector2.ONE, 0.15)
+
+func _on_game_button_press(button: Button, is_pressed: bool) -> void:
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_QUAD)
+
+	if is_pressed:
+		tween.tween_property(button, "scale", Vector2(0.95, 0.95), 0.05)
+	else:
+		tween.tween_property(button, "scale", Vector2(1.08, 1.08), 0.1)
 
 func _on_tree_exiting() -> void:
 	# Failsafe: Save data when Main scene is exiting
