@@ -79,30 +79,30 @@ custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 
 [node name="PlayButton" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(500, 100)
+custom_minimum_size = Vector2(650, 130)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 15
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="LeftIcon" type="TextureRect" parent="VBoxContainer/PlayButton"]
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(78, 78)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
 [node name="PlayLabel" type="Button" parent="VBoxContainer/PlayButton"]
-custom_minimum_size = Vector2(200, 100)
+custom_minimum_size = Vector2(260, 130)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 40
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 52
 text = "PLAY"
 
 [node name="RightIcon" type="TextureRect" parent="VBoxContainer/PlayButton"]
-custom_minimum_size = Vector2(60, 60)
+custom_minimum_size = Vector2(78, 78)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
