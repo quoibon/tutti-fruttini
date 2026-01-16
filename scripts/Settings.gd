@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var developer_logo_button = $Panel/ScrollContainer/VBoxContainer/DeveloperContainer/DeveloperLogoButton
 @onready var music_link_button = $Panel/ScrollContainer/VBoxContainer/MusicContainer/MusicLinkButton
 @onready var back_button = $Panel/ScrollContainer/VBoxContainer/BackButton
+@onready var top_back_button = $Panel/TopBackButton
 
 func _ready() -> void:
 	# Set process mode to ALWAYS so this works while paused
@@ -37,6 +38,7 @@ func _ready() -> void:
 	vibration_toggle.toggled.connect(_on_vibration_toggled)
 	announce_drops_toggle.toggled.connect(_on_announce_drops_toggled)
 	back_button.pressed.connect(_on_back_pressed)
+	top_back_button.pressed.connect(_on_back_pressed)
 
 	# Connect credits buttons
 	developer_logo_button.pressed.connect(_on_developer_logo_pressed)
